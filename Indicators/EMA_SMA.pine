@@ -1,0 +1,23 @@
+//Run the following Script on PINE EDITOR
+
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © might-tree
+//@version=5
+
+indicator(title="EMA_SMA", shorttitle="EMA_SMA", overlay=true, timeframe="", timeframe_gaps=true)
+len = input.int(21, minval=1, title="Length")
+src = input(close, title="Source")
+offset = input.int(title="Offset", defval=0, minval=-500, maxval=500)
+//out_ema = ta.ema(src, len)
+//plot(out_ema, title="EMA", color=color.green, offset=offset)
+
+//out_sma = ta.sma(src, len)
+//plot(out_sma, color=color.red, title="EMA", offset=offset)
+
+ema=ta.ema(close,21)
+sma=ta.sma(close,21)
+//ema_sma=(out_ema+out_sma)/2
+//ema_sma=(ema+sma)/2
+plot(ema,"EMA",color=color.blue)
+plot(sma,"SMA",color=color.red)
+//plot(ema_sma)
