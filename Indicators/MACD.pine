@@ -1,0 +1,23 @@
+//Run the below Script in PINE EDITOR or any platform supporting Pine Script
+
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © might-tree
+
+//@version=5
+indicator("MACD Indicator (14,21) : SoC 2023")
+
+fast1 = 21
+slow1 = 14
+macd1 = ta.ema(close,fast1) - ta.ema(close,slow1)
+
+fast2 = 90
+slow2 = 41
+macd2 = ta.ema(close,fast2) - ta.ema(close,slow2)
+
+fast3 = 200
+slow3 = 90
+macd3 = ta.ema(close,fast3) - ta.ema(close,slow3)
+
+plot(macd1, color=color.blue)
+plot(macd2, color=color.red)
+plot(macd3, color=color.green)
