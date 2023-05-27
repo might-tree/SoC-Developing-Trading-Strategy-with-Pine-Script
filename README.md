@@ -1,0 +1,1 @@
+# SoC-Developing-Trading-Strategy-with-Pine-Script
