@@ -1,0 +1,16 @@
+//Run the following Script on PINE EDITOR or any platform supporting Pine Script
+
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © might-tree
+
+//@version=5
+indicator("Bollinger Band")
+int length = input.int(defval = 21)
+src = input(defval = close)
+float mult = input.float(defval = 2.0)
+upper_band = ta.sma(src, length) + (mult * ta.stdev(src, length))
+lower_band = ta.sma(src, length) - (mult * ta.stdev(src, length))
+upper = plot(upper_band, "BB Upper", color=#aaffaf)
+lower = plot(lower_band, "BB Lower", color=#aaffaf)
+fill(upper, lower, title = "BB Background", color=color.rgb(162, 253, 166))
+plot(close)
