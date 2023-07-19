@@ -7,4 +7,12 @@ Technical analysis is a financial trading discipline employing patterns in marke
 - Chart Patterns
 - Technical (Statistical) Indicators
 
-Some of the popular technical [indicators](./Indicators) include Moving average convergence divergence (MACD) and Relative strength index (RSI). In this project, a few technical indicators have been scripted in Pine Script, and can also be compared with chart patterns by running the scripts on a platform such as [TradingView](https://www.tradingview.com/pine/).
+Some of the popular technical [indicators](./Indicators) include Moving average convergence divergence (MACD) and Relative strength index (RSI). In this project, a few technical indicators have been scripted in Pine Script, and can also be compared with chart patterns by running the scripts on a platform such as [TradingView](https://www.tradingview.com/pine/). 
+
+# Indicators:
+- m
+- m
+- Bollinger Band
+
+# Strategies:
+- Dead Cross Over: The "death cross" is a market chart pattern reflecting recent price weakness. It refers to the drop of a short-term moving average—meaning the average of recent closing prices for a stock, stock index, commodity or cryptocurrency over a set period of time—below a longer-term moving average.
