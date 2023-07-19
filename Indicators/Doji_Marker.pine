@@ -1,0 +1,14 @@
+//Run the following Script on PINE EDITOR or any platform supporting Pine Script
+
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © might-tree
+
+//@version=5
+indicator("Doji Marker")
+
+accuracy = input.float(0.15, minval=0.001, title='Doji Size')
+barcolor(math.abs(open - close) <= (high - low) * accuracy ? color.white : na)
+doji = math.abs(open - close) <= (high - low) * accuracy ? 1 : 0
+plotshape(doji, style=shape.diamond, color=color.blue, location=location.abovebar, size=size.tiny, title='Doji Marker')
+
+plot(close)
