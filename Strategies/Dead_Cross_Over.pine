@@ -6,13 +6,10 @@
 //@version=5
 strategy("Dead Cross Over", overlay=true, margin_long=100, margin_short=100)
 
-FastIndicator = ta.ema(close, 50)
-SlowIndicator = ta.ema(close, 200)
+FastIndicator = ta.ema(close, 10)
+SlowIndicator = ta.ema(close, 100)
 
-
-// determine if ema50 is crossing under ema200
 CrossUnder = (FastIndicator[0]-SlowIndicator[0] < 0 and FastIndicator[1]-SlowIndicator[1] > 0)
-// determine if ema50 is crossing over ema200
 CrossOver = (FastIndicator[0]-SlowIndicator[0] > 0 and FastIndicator[1]-SlowIndicator[1] < 0)
 
 plot(FastIndicator, color = color.rgb(87, 255, 92), linewidth = 1, title="Fast")
@@ -20,8 +17,8 @@ plot(SlowIndicator, color = #ff1269, title="Slow")
 bgcolor(CrossUnder ? color.red : CrossOver ? color.green : na, title="Cross")
 
 
-if (CrossOver)
+if (CrossOver) and SlowIndicator<close
     strategy.entry("Death Cross", strategy.long)
 
 if (CrossUnder)
-    strategy.close("Golden Cross")
+    strategy.close("Death Cross")
