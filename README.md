@@ -17,6 +17,7 @@ Some of the popular technical [indicators](./Indicators) include Moving average 
 ### [Strategies](./Strategies):
 - [Dead Cross Over](./Strategies/Crossovers.pine): The "death cross" is a market chart pattern reflecting recent price weakness. It refers to the drop of a short-term moving average—meaning the average of recent closing prices for a stock, stock index, commodity or cryptocurrency over a set period of time—below a longer-term moving average.
 - [Intraday Gap Detector](./Strategies/Intraday_Gap_Detector.pine)
+- [Swing Trade](./Strategies/Swing_Trade.pine)
 
 ### [Signals](./Signals):
 - [Inside Candle Detector](./Signals/Inside_Candle_Detector.pine)
