@@ -1,0 +1,156 @@
+//Run the following Script on PINE EDITOR or any platform supporting Pine Script
+
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © might-tree
+
+//@version=5
+strategy("5 EMA Strategy: Power of Stocks", overlay=true, margin_long=100, margin_short=100)
+
+Eusl = false // Enable Extra SL 
+usl = 10 // Value to set SL number of points above-high or below-low
+risk_reward_ratio = 5
+show_sell = true
+show_buy = false
+candle_close_buy_sell = false
+
+ema5 = ta.ema(close,5)
+pema5 = plot(ema5, '5 Ema', color=color.new(#882626, 0), linewidth=2)
+   
+var bool Short  = na
+var bool Long  = na
+var shortC = 0
+var sslhitC = 0
+var starhitC = 0
+var float ssl = na
+var float starl = na
+var float star = na
+var float sellat = na
+var float alert_shorthigh = na
+var float alert_shortlow = na
+var line lssl = na
+var line lstar = na
+var line lsell = na
+var label lssllbl = na
+var label lstarlbl = na
+var label lselllbl = na
+var longC = 0
+var lslhitC = 0
+var ltarhitC = 0
+var float lsl = na
+var float ltarl = na
+var float ltar = na
+var float buyat = na
+var float alert_longhigh = na
+var float alert_longlow = na
+var line llsl = na
+var line lltar = na
+var line lbuy = na
+var label llsllbl = na
+var label lltarlbl = na
+var label lbuylbl = na
+
+ShortWC = low[1] > ema5[1] and low[1] > low and shortC == 0 and close<close[1]
+ShortWOC = low[1] > ema5[1] and low[1] > low and shortC == 0
+Short := candle_close_buy_sell ? ShortWC : ShortWOC
+sslhit = high > ssl and shortC > 0 and sslhitC == 0
+starhit = low < star and shortC > 0 and starhitC == 0
+LongWC =  high[1] < ema5[1] and high[1] < high and longC == 0 and close>close[1]
+LongWOC =  high[1] < ema5[1] and high[1] < high and longC == 0
+Long := candle_close_buy_sell ? LongWC : LongWOC
+lslhit = low < lsl and longC > 0 and lslhitC == 0
+ltarhit = high > ltar and longC > 0 and ltarhitC == 0
+
+if Short and show_sell
+    shortC := shortC + 1
+    sslhitC := 0
+    starhitC := 0
+    alert_shorthigh := high[1]
+    if Eusl
+        ssl := high[1] + usl
+        starl := candle_close_buy_sell ? ((high[1] - close) + usl) * risk_reward_ratio : ((high[1] - low[1]) + usl) * risk_reward_ratio
+    else
+        ssl := high[1]
+        starl := candle_close_buy_sell ? (high[1] - close) * risk_reward_ratio : (high[1] - low[1]) * risk_reward_ratio
+    star := candle_close_buy_sell ? close - starl : low[1] - starl
+    sellat := candle_close_buy_sell ? close : low[1]
+    lssl := line.new(bar_index, ssl, bar_index, ssl, color=color.new(#fc2d01,45), style=line.style_dashed)
+    lstar := line.new(bar_index, star, bar_index, star, color=color.new(color.green,45), style=line.style_dashed)
+    lsell := line.new(bar_index, sellat, bar_index, sellat, color=color.new(color.orange,45), style=line.style_dashed)
+    lssllbl := label.new(bar_index, ssl, style=label.style_none, text='Stop Loss - Short' + ' (' + str.tostring(ssl) + ')', textcolor=color.new(#fc2d01,35), color=color.new(#fc2d01,35))
+    lstarlbl := label.new(bar_index, star, style=label.style_none, text='Target - Short' + ' (' + str.tostring(star) + ')', textcolor=color.new(color.green,35), color=color.new(color.green,35))
+    lselllbl := label.new(bar_index, sellat, style=label.style_none, text='Sell at' + ' (' + str.tostring(sellat) + ')', textcolor=color.new(color.orange,35), color=color.new(color.orange,35))
+
+if sslhit == false and starhit == false and shortC > 0
+    line.set_x2(lssl, bar_index)
+    line.set_x2(lstar, bar_index)
+    line.set_x2(lsell, bar_index)
+    sslhitC := 0
+    starhitC := 0
+else
+    if sslhit
+        shortC := 0
+        sslhitC := sslhitC + 1
+    else
+        if starhit
+            shortC := 0
+            starhitC := starhitC + 1
+
+if Long and show_buy
+    longC := longC + 1
+    lslhitC := 0
+    ltarhitC := 0
+    alert_longlow := low[1]
+    if Eusl
+        lsl := low[1] - usl
+        ltarl := candle_close_buy_sell ? ((close - low[1]) + usl) * risk_reward_ratio : ((high[1] - low[1]) + usl) * risk_reward_ratio
+    else
+        lsl := low[1]
+        ltarl := candle_close_buy_sell ? (close - low[1]) * risk_reward_ratio : (high[1] - low[1]) * risk_reward_ratio
+    ltar := candle_close_buy_sell ? close + ltarl : high[1] + ltarl
+    buyat := candle_close_buy_sell ? close : high[1]
+    llsl := line.new(bar_index, lsl, bar_index, lsl, color=color.new(#fc2d01,45), style=line.style_dotted)
+    lltar := line.new(bar_index, ltar, bar_index, ltar, color=color.new(color.green,45), style=line.style_dotted)
+    lbuy := line.new(bar_index, buyat, bar_index, buyat, color=color.new(color.orange,45), style=line.style_dotted)
+    llsllbl := label.new(bar_index, lsl, style=label.style_none, text='Stop Loss - Long' + ' (' + str.tostring(lsl) + ')', textcolor=color.new(#fc2d01,35), color=color.new(#fc2d01,35))
+    lltarlbl := label.new(bar_index, ltar, style=label.style_none, text='Target - Long' + ' (' + str.tostring(ltar) + ')', textcolor=color.new(color.green,35), color=color.new(color.green,35))
+    lbuylbl := label.new(bar_index, buyat, style=label.style_none, text='Buy at' + ' (' + str.tostring(buyat) + ')', textcolor=color.new(color.orange,35), color=color.new(color.orange,35))
+
+if lslhit == false and ltarhit == false and longC > 0
+    line.set_x2(llsl, bar_index)
+    line.set_x2(lltar, bar_index)
+    line.set_x2(lbuy, bar_index)
+    lslhitC := 0
+    ltarhitC := 0
+else
+    if lslhit
+        longC := 0
+        lslhitC := lslhitC + 1
+    else
+        if ltarhit
+            longC := 0
+            ltarhitC := ltarhitC + 1
+
+plotshape(show_sell and Short, title='Sell', location=location.abovebar, offset=0, color=color.new(#e74c3c, 45), style=shape.arrowdown, size=size.normal, text='Sell', textcolor=color.new(#e74c3c, 55))
+plotshape(show_sell and sslhit, title='SL Hit - Short', location=location.abovebar, offset=0, color=color.new(#fc2d01, 25), style=shape.arrowdown, size=size.normal, text='SL Hit - Short', textcolor=color.new(#fc2d01, 25))
+plotshape(show_sell and starhit, title='Target Hit - Short', location=location.belowbar, offset=0, color=color.new(color.green, 45), style=shape.arrowup, size=size.normal, text='Target Hit - Short', textcolor=color.new(color.green, 55))
+plotshape(show_buy and Long, title='Buy', location=location.belowbar, offset=0, color=color.new(#2ecc71, 45), style=shape.arrowup, size=size.normal, text='Buy', textcolor=color.new(#2ecc71, 55))
+plotshape(show_buy and lslhit, title='SL Hit - Long', location=location.belowbar, offset=0, color=color.new(#fc2d01, 25), style=shape.arrowdown, size=size.normal, text='SL Hit - Long', textcolor=color.new(#fc2d01, 25))
+plotshape(show_buy and ltarhit, title='Target Hit - Long', location=location.abovebar, offset=0, color=color.new(color.green, 45), style=shape.arrowup, size=size.normal, text='Target Hit - Long', textcolor=color.new(color.green, 55))
+
+if show_sell and Short
+    alert("Go Short@ " + str.tostring(sellat) + " : SL@ " + str.tostring(ssl) + " : Target@ " + str.tostring(star) + " ", alert.freq_once_per_bar )
+
+if show_sell and sslhit
+    alert("Short Stop-loss hit ", alert.freq_once_per_bar )
+
+if show_sell and starhit
+    alert("Short Target hit ", alert.freq_once_per_bar )
+
+if show_buy and Long
+    alert("Go Long@ " + str.tostring(buyat) + " : SL@ " + str.tostring(lsl) + " : Target@ " + str.tostring(ltar) + " ", alert.freq_once_per_bar )
+
+if show_buy and lslhit
+    alert("Long Stop-loss hit ", alert.freq_once_per_bar )
+
+if show_buy and ltarhit
+    alert("Long Target hit ", alert.freq_once_per_bar )
