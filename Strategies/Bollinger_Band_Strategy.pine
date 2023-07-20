@@ -1,0 +1,86 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © might-tree
+
+//@version=5
+strategy("Bollinger Band Strategy", overlay=true, margin_long=100, margin_short=100)
+
+start_time = input.time(timestamp("20 Jul 2020 00:00 +0300"), "Strategy Start Date")
+exit_time = input.time(timestamp("20 Jul 2023 00:00 +0300"), "Strategy Exit Date")
+
+in_period = time>=timestamp("20 Jul 2022 00:00 +0300") and time<=timestamp("20 Jul 2023 00:00 +0300")
+
+
+bb_length = input.int(20)
+bb_mult = input.int(2)
+
+[middle, upper, lower] = ta.bb(close,bb_length, bb_mult)
+plot(middle, color=color.rgb(228, 231, 75))
+plot(upper, color=color.rgb(0, 255, 34))
+plot(lower, color=color.rgb(255, 0, 85))
+long_cond = ta.crossover(close,lower)
+short_cond = ta.crossunder(close,upper)
+
+var saved_ph = 0.0
+if strategy.opentrades>0 and strategy.opentrades[1]==0 and strategy.position_size > 0
+    saved_ph := upper[1]
+var saved_pl = 0.0
+if strategy.opentrades>0 and strategy.opentrades[1]==0 and strategy.position_size < 0
+    saved_pl := lower[1]
+
+avg = strategy.position_avg_price
+
+long_diff = saved_ph-avg
+short_diff = saved_pl-avg
+
+long_stoploss = avg - 1*long_diff
+short_stoploss = avg - 1*short_diff
+
+long_avgdown = avg - 0.5*long_diff
+short_avgup = avg - 0.5*short_diff
+
+long_profit_price = avg + 0.5*long_diff
+short_profit_price = avg + 0.5*short_diff
+
+var label _label = na
+if in_period
+    if long_cond and strategy.opentrades==0
+        strategy.entry("Long",strategy.long)
+    if long_cond and strategy.opentrades >0 and (close[1]<long_avgdown or close[2]<long_avgdown)
+        strategy.entry("Long",strategy.long)
+
+    if short_cond and strategy.opentrades==0
+        strategy.entry("Short", strategy.short)
+    if short_cond and strategy.opentrades>0 and (close[1]>short_avgup or close[2]>short_avgup)
+        strategy.entry("Short",strategy.short)
+
+plot(avg, style=plot.style_linebr)
+
+
+plot(strategy.position_size > 0? long_profit_price: na,color=color.green, style=plot.style_linebr)
+plot(strategy.position_size > 0? long_avgdown: na,color=color.rgb(177, 255, 59), style=plot.style_linebr)
+plot(strategy.position_size > 0? long_stoploss: na,color=color.rgb(82, 255, 192), style=plot.style_linebr)
+
+plot(strategy.position_size < 0? short_profit_price: na,color=color.rgb(243, 255, 74), style=plot.style_linebr)
+plot(strategy.position_size < 0? short_avgup: na,color=color.rgb(248, 190, 97), style=plot.style_linebr)
+plot(strategy.position_size < 0? short_stoploss: na,color=color.rgb(255, 0, 0), style=plot.style_linebr)
+
+var co = false
+if strategy.position_size > 0 and ta.crossover(close, middle)
+    co := true
+var cu = false
+if strategy.position_size < 0 and ta.crossunder(close, middle)
+    cu := true
+if strategy.opentrades == 0
+    co := false
+    cu := false
+
+if strategy.position_size > 0
+    if co
+        strategy.exit("Long Exit", "Long", limit=long_profit_price, stop=middle)
+    else
+        strategy.exit("Long Exit", "Long", limit=long_profit_price, stop=long_stoploss)
+if strategy.position_size < 0
+    if cu
+        strategy.exit("Short Exit", "Short", limit=short_profit_price, stop=middle)
+    else
+        strategy.exit("Short Exit", "Short", limit=short_profit_price, stop=short_stoploss)
