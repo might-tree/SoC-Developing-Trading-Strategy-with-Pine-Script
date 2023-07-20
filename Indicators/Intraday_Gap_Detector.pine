@@ -4,7 +4,7 @@
 // © might-tree
 
 //@version=5
-indicator("Intraday Gap Detector", overlay=true, margin_long=100, margin_short=100)
+indicator("Intraday Gap Detector", overlay=true)
 size = 0.2
 days = 30
 
