@@ -13,10 +13,10 @@ Some of the popular technical [indicators](./Indicators) include Moving average 
 - [Moving Average Convergence Divergence](./Indicators/MACD.pine)
 - [Simple Moving Average and Exponential Moving Average](./Indicators/EMA_SMA.pine)
 - [Bollinger Band](./Indicators/Bollinger_Band.pine)
+- [Intraday Gap Detector](./Indicators/Intraday_Gap_Detector.pine)
 
 ### [Strategies](./Strategies):
 - [Dead Cross Over](./Strategies/Crossovers.pine): The "death cross" is a market chart pattern reflecting recent price weakness. It refers to the drop of a short-term moving average—meaning the average of recent closing prices for a stock, stock index, commodity or cryptocurrency over a set period of time—below a longer-term moving average.
-- [Intraday Gap Detector](./Strategies/Intraday_Gap_Detector.pine)
 - [Swing Trade](./Strategies/Swing_Trade.pine)
 - [5 EMA Strategy: Power of Stocks](./Strategies/5EMA.pine)
 - [Bollinger Band Strategy](./Strategies/Bollinger_Band_Strategy.pine)
