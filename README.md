@@ -23,3 +23,7 @@ Some of the popular technical [indicators](./Indicators) include Moving average 
 
 ### [Signals](./Signals):
 - [Inside Candle Detector](./Signals/Inside_Candle_Detector.pine)
+
+#### [Custom Strategies](./Custom_Strategies):
+- [My Strategy 1](./Custom_Strategies/My_Strategy_1.pine)
+- [My Strategy 2](./Custom_Strategies/My_Strategy_2.pine)
