@@ -19,6 +19,7 @@ Some of the popular technical [indicators](./Indicators) include Moving average 
 - [Intraday Gap Detector](./Strategies/Intraday_Gap_Detector.pine)
 - [Swing Trade](./Strategies/Swing_Trade.pine)
 - [5 EMA Strategy: Power of Stocks](./Strategies/5EMA.pine)
+- [Bollinger Band Strategy](./Strategies/Bollinger_Band_Strategy.pine)
 
 ### [Signals](./Signals):
 - [Inside Candle Detector](./Signals/Inside_Candle_Detector.pine)
