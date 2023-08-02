@@ -18,7 +18,7 @@ Some of the popular technical [indicators](./Indicators) include Moving average 
 ### [Strategies](./Strategies):
 - [Dead Cross Over](./Strategies/Dead_Cross_Over.pine): The "death cross" is a market chart pattern reflecting recent price weakness. It refers to the drop of a short-term moving average—meaning the average of recent closing prices for a stock, stock index, commodity or cryptocurrency over a set period of time—below a longer-term moving average.
 - [Swing Trade](./Strategies/Swing_Trade.pine): Swing trading is a style of trading that attempts to capture short- to medium-term gains in a stock (or any financial instrument) over a period of a few days to several weeks. It involves taking trades that last a couple of days up to several months in order to profit from an anticipated price move.
-- [5 EMA Strategy: Power of Stocks](./Strategies/5EMA.pine): 5 EMA Strategy by Power of Stocks
+- [5 EMA Strategy: Power of Stocks](./Strategies/5EMA.pine): 5 EMA Strategy by Power of Stocks.
 - [Bollinger Band Strategy](./Strategies/Bollinger_Band_Strategy.pine): A Bollinger Band is a technical analysis tool defined by a set of trendlines. They are plotted as two standard deviations, both positively and negatively, away from a simple moving average (SMA) of a security's price and can be adjusted to user preferences. 
 
 ### [Signals](./Signals):
